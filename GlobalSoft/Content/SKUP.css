@@ -1,0 +1,22 @@
+﻿div.kontainer {
+   
+    font-size: 0.875em;
+}
+
+
+
+#judul {
+    text-align: center;
+}
+
+p, ul, ol, dl, address {
+    font-size: 0.875em;
+}
+
+p, li, dd, dt, address {
+    line-height: 1em;
+}
+
+ol.b {
+    font-size: 1em;
+}

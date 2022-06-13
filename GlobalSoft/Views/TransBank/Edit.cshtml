@@ -1,0 +1,239 @@
+﻿@model GlobalSoft.Models.OdTransH
+
+@{
+    ViewBag.Title = "Edit Transaksi";
+}
+
+<h2>Edit Transaksi</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Kas/Bank</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.TranshID)
+        <div class="col-md-6" style="display:inline-block">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Docno, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Docno, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                    @*Html.TextBoxFor(model => model.Docno, new { disabled = "disabled" })*@
+                    @Html.ValidationMessageFor(model => model.Docno, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.BankID, "BankID", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("BankID", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.BankID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6" style="display:inline-block">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Tanggal, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Tanggal, new { @class = "form-control", type = "date", placeholder = "Tanggal Transaksi",@Value=Model.Tanggal.ToString("yyyy-MM-dd") })
+                    @Html.ValidationMessageFor(model => model.Tanggal, "", new { @class = "text-danger" })
+
+                    @*Html.EditorFor(model => model.Tanggal, new { htmlAttributes = new { @class = "form-control" } })*@
+                    @*Html.ValidationMessageFor(model => model.Tanggal, "", new { @class = "text-danger" })*@
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Keterangan, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Keterangan, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Keterangan, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <!--     <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Save" class="btn btn-default" />
+                    </div>
+                </div>
+        -->
+
+        <div>
+            <table id="detailsTable" class="table">
+                <thead>
+                    <tr>
+                        <th style="width:30%">Transaksi</th>
+                        <th style="width:20%">Keterangan</th>
+                        <th style="width:15%">Terima</th>
+                        <th style="width:25%">Bayar</th>
+                        <th style="width:10%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach (var e in Model.OdTransDs)
+                        {
+
+                            <tr>
+                                <td>
+                                    <select class="form-control" name="Transid" id="Transid">
+                                        @foreach (var t in ViewBag.TransDP)
+                                        {
+                                            <option value="@t.Value" @(t.Value == e.TransNoID.ToString() ? "selected" : "")>@t.Text</option>
+                                        }
+                                    </select>
+
+                                    @*Html.DropDownList("Transid", (SelectList)ViewData["TransDP"], htmlAttributes: new { @class = "form-control", @id = "transid_@e.TransdID" })*@
+                                </td>
+                                <td>   @Html.Editor("Ket", new { htmlAttributes = new { @class = "form-control", @Value = @e.Keterangan } })</td>
+                                <td>   @Html.Editor("Terima", new { htmlAttributes = new { @class = "form-control", @Value = @e.Terima } })</td>
+                                <td>   @Html.Editor("Bayar", new { htmlAttributes = new { @class = "form-control", @Value = @e.Bayar } })</td>
+                                <td> <a data-itemId="0" href="#" class="deleteItem">Remove</a> </td>
+                            </tr>
+                        };
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>
+                            <!--      <input class="btnAdd btn btn-default" type="button" id="btnAdd1" value="Add" />
+                            -->
+                            <a id="addToList" class="btn btn-primary">Add To List</a>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <input id="btnSubmit" type="button" value="Simpan" class="btn btn-danger" />
+                        </td>
+
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+    @Html.Hidden("RedirectTo", Url.Action("Index", "TransBank"))
+</div>
+
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/cssjqryUi")
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    
+    <script>
+
+    $("#addToList").click(function (e) {
+        e.preventDefault();
+        var td1 = '<td>  @Html.Raw(Ajax.JavaScriptStringEncode(Html.DropDownList("Transid", (SelectList) ViewBag.TransDP, htmlAttributes: new { @class = "form-control" }).ToHtmlString()))</td>';
+        var td2 = '<td> @Html.Editor("Ket" , new { htmlAttributes = new { @class = "form-control" } })</td>';
+        var td3 = '<td> @Html.Editor("Terima" , new { htmlAttributes = new { @class = "form-control", @Value = 0 } })</td>';
+        var td4 = '<td> @Html.Editor("Bayar" , new { htmlAttributes = new { @class = "form-control", @Value = 0 } })</td>';
+        var td6 = '<td> <a data-itemId="0" href="#" class="deleteItem">Remove</a></td>';
+        $("tbody").append('<tr>' + td1 + td2 + td3 + td4 + td6+'</tr>');
+    });
+
+    $(document).on('click', 'a.deleteItem', function (e) {
+        e.preventDefault();
+        var $self = $(this);
+        if ($(this).attr('data-itemId') === "0") {
+            $(this).parents('tr').css("background-color", "#ff6347").fadeOut(800, function () {
+                $(this).remove();
+            });
+        }
+    });
+
+    function getAllData() {
+        var orderArr = [];
+        $('tbody tr').each(function () {
+            var transid = $(this).find('#Transid').val();
+            var ket = $(this).find('#Ket').val();
+            var terima = $(this).find('#Terima').val();
+            var bayar = $(this).find('#Bayar').val();
+            var alldata = {
+                'TransNoID': transid,
+                'Keterangan': ket,
+                'Terima': terima,
+                'Bayar': bayar
+            }
+            orderArr.push(alldata);
+
+        });
+    //
+        var data = {
+            transhid: $('#TranshID').val(),
+            docno: $("#Docno").val(),
+            keterangan: $("#Keterangan").val(),
+            tanggal: $("#Tanggal").val(),
+            bank: $("#BankID").val(),
+             order: orderArr
+        }
+    //    console.log(data);
+   //     alert(data);
+        return data;
+    }
+
+    $('#btnSubmit').click(function () {
+        var data = JSON.stringify(getAllData());
+        var url = $('#RedirectTo').val();
+
+     //   alert(data);
+        $.ajax({
+            url: '/TransBank/EditData',
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: data,
+            success: function () {
+                alert("Data Added Successfully");
+                location.href = url;
+            },
+            error: function () {
+                alert("Error while inserting data");
+            }
+        });
+    });
+    </script>
+    <script>
+
+        $("#Terima").click(function () {
+           
+          //  var b = $(this).parent('tr').find('#Bayar').html();
+         //   alert(b);
+        });
+
+
+
+
+    </script>
+
+    <script>
+        /*            document.getElementById("Docno").focus = function () { myFunction() };
+
+                    function myFunction() {
+                        var x = document.getElementById("Docno");
+                        x.value = x.value.toUpperCase();
+                    }
+        */
+        addEvent(document.getElementById('Bayar'), 'keyup', function () {
+            document.getElementById('Terima').value = 0;
+        });
+
+
+        function addEvent(ele, evnt, funct) {
+            if (ele.addEventListener) // W3C
+                return ele.addEventListener(evnt, funct, false);
+            else if (ele.attachEvent)  // IE
+                return ele.attachEvent("on" + evnt, funct);
+        }
+    </script>
+
+}

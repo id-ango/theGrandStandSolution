@@ -1,0 +1,66 @@
+﻿@model IEnumerable<GlobalSoft.Models.AptMarketing>
+
+@{
+    ViewBag.Title = "Index";
+}
+<style>
+    table, th, td {
+        border: 1px solid grey;
+        border-collapse: collapse;
+        padding: 5px;
+    }
+
+        table tr:nth-child(odd) {
+            background-color: #f1f1f1;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #ffffff;
+        }
+</style>
+<h2>Marketing</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.MarketingID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MarketingName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Phone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AptAgen.AgenName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.MarketingID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MarketingName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Phone)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.AptAgen.AgenName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.MarketingID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.MarketingID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.MarketingID })
+        </td>
+    </tr>
+}
+
+</table>

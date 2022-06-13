@@ -1,0 +1,81 @@
+﻿@model IEnumerable<GlobalSoft.Models.CbBank>
+
+@{
+    ViewBag.Title = "Rekening Koran";
+}
+
+<h2>Transaksi Bank</h2>
+
+<br />
+<br />
+
+@Html.AntiForgeryToken()
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.BankName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BankAccount)
+        </th>
+        <th>
+            Saldo
+        </th>
+        <th>Cetak Rek. Koran sd Tanggal</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BankName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BankAccount)
+            </td>
+            <td>
+                @string.Format("{0,13:#,##0.00}", item.Saldo)
+                @*Html.DisplayFor(modelItem => item.Saldo)*@
+            </td>
+            <td>
+                @using (Html.BeginForm("CetakCBTransaksi", "Laporan", FormMethod.Post, new { target = "_blank" }))
+                {
+                    <input type="date" id="Tanggal1" name="Tanggal1" class="tanggal" value='@DateTime.Today.ToString("yyyy-MM-dd")' />
+                    <input type="date" id="Tanggal2" name="Tanggal2" class="tanggal" value='@DateTime.Today.ToString("yyyy-MM-dd")' />
+                    <input hidden type="number" id="KodeBank" name="KodeBank" value="@item.BankID" />
+                    <input type="submit" value="Cetak" class="btn btn-default" />
+
+                    @*Html.ActionLink("Cetak", "Cetak", new { id = item.BankID }, new { target = "_blank" })*@
+                }
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+@section scripts{
+    @*Scripts.Render("~/bundles/jqueryui")*@
+    @*Styles.Render("~/Content/cssjqryUi")*@
+
+    <!--   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+         <script>
+              $(function () {
+                  $.each(".tanggal").datepicker({
+                      dateFormat: 'mm-dd-yy',
+                      changeMonth: true,
+                      changeYear: true,
+                      yearRange: '1900:' + (new Date().getFullYear() + 60)
+                  });
+              });
+          </script>   -->
+
+
+
+
+}

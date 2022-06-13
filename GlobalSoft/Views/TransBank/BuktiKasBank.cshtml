@@ -1,0 +1,137 @@
+﻿@model GlobalSoft.Models.OdTransH
+@{
+    Layout = null;
+}
+
+<head>
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <style type="text/css" media="print">
+        .dontprint {
+            display: none;
+        }
+    </style>
+</head>
+
+
+<div class="dontprint">
+    @Html.ActionLink("Back to List", "Index")
+
+</div>
+
+
+<div class="container-fluid">
+    <table style="width:100%">
+        <tr>
+            <th style="width:30%">
+                <div style="float:left;padding:20px 50px">
+                    <strong style="font-size:18px"><u>THE GRAND STAND</u></strong><br />
+                    <span style="font-size:12px;margin-bottom:0px;padding:0 0px 0px 0px">Jl. Raya Kupang Indah No. 9</span><br />
+                    <span style="font-size:12px;margin-bottom:0px;padding:0 0px 0px 0px">Surabaya</span>
+                </div>
+            </th>
+            <th style="width:40%">
+
+                <div align="center" style="padding:20px 50px">
+                    <h3 align="center"><u>Bukti @Model.KodeBank @((@Model.Saldo<0) ? "Keluar" : "Masuk") </u></h3><br />
+                </div>
+            </th>
+            <th style="width:30%">
+                <div style="padding:20px 50px">
+                    <strong>Nomor   :</strong>        <span>@Model.Docno</span><br />
+                    <strong>Tanggal :</strong>        <span>@string.Format("{0:d}", @Model.Tanggal)</span>
+
+                </div>
+            </th>
+        </tr>
+
+    </table>
+</div>
+<div class="container-fluid">
+    @{
+        decimal nJumlah = 0;
+
+        <table style="width:100%">
+            <thead style="border:solid ">
+                <tr>
+                    <th style="width:auto">No</th>
+                    <th  style="width:auto"><span style="margin-right:15px;text-align:center">Keterangan</span> </th>
+                    <th style="width:auto">Jumlah</th>
+                </tr>
+            </thead>
+            <tbody style="border:solid">
+
+                @{
+                    decimal nNo = 0;
+
+
+                    foreach (var item in Model.OdTransDs)
+                    {
+                        nNo = nNo + 1;
+                        nJumlah = nJumlah + ((item.Terima) - (item.Bayar));
+
+                        <tr>
+                            <td>@nNo</td>
+                            <td>@item.Keterangan</td>
+                            <td>@string.Format("{0:n2}", (item.Terima - item.Bayar))</td>
+                        </tr>
+
+                    }
+                    if (nNo < 8)
+                    {
+                        for (var i = nNo; i < 8; i++)
+                        {
+                            <tr>
+                                <td style="color:white">. </td>
+                                <td> </td>
+                                <td> </td>                                
+                            </tr>
+
+                        }
+                    }
+
+                };
+            </tbody>
+            <tbody>
+                <tr>.</tr>
+            </tbody>
+            <tfoot style="border:solid">
+
+                <tr>
+                    <td colspan="2">@Model.Keterangan</td>
+                    <td>@string.Format("{0:n2}", @nJumlah)</td>
+                </tr>
+            </tfoot>
+
+        </table>
+    }
+</div>
+<br />
+
+<div class="container-fluid">
+    <table style="width:100%;border:solid">
+        <tr>
+            <th style="width:33%;border:solid">
+                <div align="center">
+                    <strong>Mengetahui</strong> <br /><br /><br /><br />
+                </div>
+            </th>
+            <th style="width:34%;border:solid">
+                <div align="center">
+                    <strong>Pembuat</strong> <br /><br /><br /><br />
+                </div>
+            </th>
+            <th style="width:33%;border:solid">
+                <div align="center">
+                    <strong>Akunting</strong> <br /><br /><br /><br />
+                </div>
+            </th>
+        </tr>
+    </table>
+</div>
+<br />
+<br />
+
+
+

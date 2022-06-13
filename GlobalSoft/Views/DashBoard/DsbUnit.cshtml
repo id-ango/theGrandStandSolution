@@ -1,0 +1,90 @@
+﻿@model IEnumerable<GlobalSoft.Models.AptUnit>
+
+@{
+    ViewBag.Title = "DashBoard Unit";
+}
+
+<h2></h2>
+
+<p></p>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-primary list-panel" id="list-panel">
+            <div class="panel-heading list-panel-heading">
+                <h1 class="panel-title list-panel-title">Unit</h1>
+            </div>
+            <div class="panel-body">
+                <table id="assets-data-table" class="table table-striped table-bordered display nowrap row-border hover order-column" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Unit</th>
+                            <th>Lantai</th>
+                            <th>Kategori</th>
+                            <th>Status</th>
+                            <th>Inhouse</th>
+                            <th>KPA</th>
+                           
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var asset in Model)
+                        {
+                            string Warna = "background-color:white";
+                            switch (asset.StatusID)
+                            {
+                                case 1:
+                                    Warna = "background-color:white";
+                                    break;
+                                case 2:
+                                    Warna = "background-color:yellow";
+                                    break;
+                                case 3:
+                                    Warna = "background-color:red";
+                                    break;
+                            }
+
+
+                          
+                            <tr style="@Warna">
+                                <td>@asset.UnitNo</td>
+                                <td>@asset.Lantai</td>
+                                <td>@asset.AptCategorie.Categorie</td>
+                                <td>@asset.AptStatus.Status</td>
+                                <td>@string.Format("{0:#,#.00}", asset.Inhouse)</td>
+                                <td>@string.Format("{0:#,#.00}", asset.PriceKPR)</td>
+
+                            </tr>
+                            }
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+ 
+    <script type="text/javascript">
+        
+
+     $(document).ready(function () {
+         var table = $('#assets-data-table').DataTable({
+             "language": {
+                 "decimal": ",",
+                 "thousands": "."
+             },
+             "scrollY": 300,
+             "scrollX": true
+         });
+
+         $('#assets-data-table tbody')
+             .on('mouseenter', 'td', function () {
+                 var colIdx = table.cell(this).index().column;
+
+                 $(table.cells().nodes()).removeClass('highlight');
+                 $(table.column(colIdx).nodes()).addClass('highlight');
+             });
+     });
+    </script>
+}

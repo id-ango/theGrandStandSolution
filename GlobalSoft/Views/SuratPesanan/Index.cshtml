@@ -1,0 +1,83 @@
+﻿@model IEnumerable<GlobalSoft.Models.AptTrans>
+
+@{
+    ViewBag.Title = "Surat Pesanan";
+}
+
+<h2>Surat Pesanan</h2>
+
+<p>
+     
+        @Html.ActionLink("Create New", "Create")
+   
+   
+    
+</p>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-primary list-panel" id="list-panel">
+            <div class="panel-heading list-panel-heading">
+                <h1 class="panel-title list-panel-title">Surat Pesanan</h1>
+            </div>
+            <div class="panel-body">
+                <table id="assets-data-table" class="table table-striped table-bordered" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>No. Bukti</th>
+                            <th>Tanggal</th>
+                            <th>Unit</th>
+                            <th>Customer</th>
+                            <th>Keterangan</th>
+                            <th>Harga Jual</th>
+                            <th>Piutang</th>
+                            <th>Angsuran</th>
+                            <th>KPA</th>
+                            <th>Cicilan</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var asset in Model)
+                        {
+                        <tr>
+                            <td>@asset.NoRef</td>
+                            <td>@asset.Tanggal</td>
+                            <td>@asset.AptUnit.UnitNo</td>
+                            <td>@asset.ArCustomer.CustomerName</td>
+                            <td>@asset.Keterangan</td>
+                            <td>@string.Format("{0:n0}", @asset.Harga)</td>
+                            <td>@string.Format("{0:n0}", @asset.Piutang)</td>
+                            <td>@string.Format("{0:n0}", @asset.Angsuran)</td>
+                            <td>@string.Format("{0:n0}", @asset.Payment)</td>
+                            <td>@asset.Cicilan</td>
+
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = asset.TransID }) |
+                                @Html.ActionLink("Cetak", "SPesanan", new { noref = @asset.NoRef, cetak = 2 }, new { target = "_blank" }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = asset.TransID }) |
+                                @Html.ActionLink("Lampiran", "SPesanan", new { noref = @asset.NoRef, cetak = 3 }, new { target = "_blank" })
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+
+    <script type="text/javascript">
+
+
+     $(document).ready(function () {
+
+         $('#assets-data-table').DataTable();
+     });
+    </script>
+}
+
+
+

@@ -1,0 +1,74 @@
+﻿@model IEnumerable<GlobalSoft.Models.GlCode>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Kode GL</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-primary list-panel" id="list-panel">
+            <div class="panel-heading list-panel-heading">
+                <h1 class="panel-title list-panel-title">Kode GL</h1>
+            </div>
+            <div class="panel-body">
+                <table id="assets-data-table" class="table table-striped table-bordered" style="width:100%">
+                    <thead>
+
+
+                        <tr>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.KodeGL)
+                            </th>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.NamaGL)
+                            </th>
+                            
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.KodeGL)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NamaGL)
+                                </td>
+                                
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.GlCodeID }) |
+                                    @Html.ActionLink("Details", "Details", new { id = item.GlCodeID }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.GlCodeID })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+
+    <script type="text/javascript">
+
+
+     $(document).ready(function () {
+
+         $('#assets-data-table').DataTable();
+     });
+    </script>
+}

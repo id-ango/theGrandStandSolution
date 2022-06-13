@@ -1,0 +1,186 @@
+﻿@model GlobalSoft.Models.AptTrans
+@{
+    Layout = null;
+}
+<head>
+    <link rel="stylesheet" href="~/Content/SPesanan.css" />
+    <style type="text/css" media="print">
+        .dontprint {
+            display: none;
+        }
+    </style>
+</head>
+
+
+
+<div class="dontprint">
+    @Html.ActionLink("Back to List", "Index")
+  
+</div>
+
+<div class="judul">
+    <H3>SURAT KONFIRMASI UNIT PESANAN</H3>
+    <h3 style="margin-top:-15px">@Model.NoRef</h3>
+</div>
+<table>
+    <tr><td width="10%">Nama</td><td>:</td><td width="50%">@Model.ArCustomer.CustomerName</td><td width="10%"></td><td></td><td></td></tr>
+    <tr><td width="10%">Alamat KTP</td><td>:</td><td width="50%">@Model.ArCustomer.Alamat</td><td width="10%"></td><td></td><td></td></tr>
+    <tr><td width="10%">No. Identitas</td><td>:</td><td width="50%">@Model.ArCustomer.Ktp</td><td width="10%">Email</td><td>:</td><td>@Model.ArCustomer.Email</td></tr>
+    <tr><td width="10%">Telpon/HP/Fax</td><td>:</td><td width="50%">@Model.ArCustomer.Phone</td><td width="10%">NPWP</td><td>:</td><td>@Model.ArCustomer.Npwp</td></tr>
+    <tr><td width="10%">Alamat Surat</td><td>:</td><td width="50%">@Model.ArCustomer.AlamatSekarang</td><td width="10%"></td><td></td><td></td></tr>
+    <tr><td width="10%">Kode Pos</td><td>:</td><td width="50%"></td><td width="10%">@Model.ArCustomer.KodePos</td><td></td><td></td></tr>
+</table>
+<br />
+<div>
+    Selanjutnya disebut &rdquo;PEMESAN&rdquo;, dengan ini sepakat untuk memesan Satuan Unit Rumah Susun (Peruntukan Hunian)
+    di THE GRAND STAND dari PT. Multi Tower Indo Sentosa yang berkedudukan di Jl. Raya Kupang Indah No. 9, Surabaya yang nantinya
+    akan disebut &rdquo;PENERIMA PESANAN&rdquo; Unit yang dipesan (&rdquo;Unit Pesanan&rdquo;) dengan perhitungan harga sebagaimana
+    diuraikan dibawah ini.
+</div>
+<div>
+    <table style="width:80%">
+        <tr><td width="30%">No Unit</td><td>:</td><td width="30%">@Model.AptUnit.UnitNo</td><td width="10%"></td><td></td><td></td></tr>
+        <tr><td width="30%">Lantai</td><td>:</td><td width="30%">@Model.AptUnit.Lantai</td><td width="10%"></td><td></td><td></td></tr>
+        <tr><td width="30%">Tipe</td><td>:</td><td width="30%">@Model.AptUnit.AptCategorie.AptType.Tipe</td><td width="20%">Harga Jual</td><td>: </td><td width=" 20%">@string.Format("{0:n0}", @Model.Harga)</td></tr>
+    </table>
+    <table style="width:80%">
+        <tr><td width="30%">Luas Unit</td><td>:</td><td width="50%">@Model.AptUnit.AptCategorie.Luas M<sup>2</sup></td></tr>
+        <tr><td width="30%">Cara Pembayaran</td><td>:</td><td width="50%">@(Model.BayarID == 1 ? "InHouse" : "KPA")</td></tr>
+        <tr><td width="30%">Terbilang</td><td>:</td><td width="80%">@ViewBag.Num2Char</td></tr>
+    </table>
+</div>
+<br />
+<div>
+    Bersama Surat Pemesanan ini, telah membayar Booking Fee maupun Bonus (**) sebesar: @string.Format("{0:n0}", @ViewBag.UangMuka)
+    @{
+        foreach (var category in (ViewBag.ListUangMuka))
+        {
+            <table style=" width:80%;margin-left:20px;border:1px solid black; border-collapse:collapse">
+                <tr>
+                    <td width="20%">@string.Format("{0:d}", @category.Tanggal)</td>
+                    <td width="30%">@category.NoRef</td>
+                    <td width="40%">@category.Keterangan</td>
+                    <td width="40%" align="right">@string.Format("{0:n0}", @category.Payment)</td>
+
+                </tr>
+            </table>
+
+        }
+    }
+
+</div>
+<br />
+<div>
+
+    Selanjutnya, Pemesan berkewajiban untuk membayar sebagai berikut:<br />
+    @{
+
+
+        decimal jumlah = 0;
+            <table style=" width:80%;margin-left:20px;border:1px solid black; border-collapse:collapse">
+                <tbody>
+                    @{ 
+
+                        foreach (var Ujicoba in (ViewBag.ListTransaksi))
+                        {
+                    <tr>
+                        <td style="width:40%;border:1px solid black;padding: 1px">@Ujicoba.Keterangan</td>
+                        <td style="width:20%;border:1px solid black;padding: 1px">@string.Format("{0:d}", @Ujicoba.Duedate)</td>
+                        <td style="width:20%;border:1px solid black;padding: 1px;text-align:right">@string.Format("{0:n0}", @Ujicoba.Jumlah)</td>
+
+                    </tr>
+                            jumlah = jumlah + Ujicoba.Jumlah;
+                        }
+                        }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2"></td>
+                        <td style="width:20%;border:1px solid black;padding: 1px;text-align:right"><strong>@string.Format("{0:n0}", @jumlah)</strong></td>
+                    </tr>
+                </tfoot>
+            </table>
+
+       
+    }
+</div><br />
+
+<table class="kotak1">
+    <tr>
+        <td width="50%">
+            <span>Harga sudah termasuk:</span>
+            <ol type="a">
+                <li>Pajak Pertambahan Nilai (PPN 10%)</li>
+                <li>Izin mendirikan bangunan (IMB Induk)</li>
+                <li>Jaringan air bersih di dalam unit</li>
+                <li>Jaringan telepon di dalam unit</li>
+                <li>Listrik....</li>
+                <li>Sertifikat pecahan atas nama pengembang</li>
+                <li>Perjanjian Pengikatan Jual Beli (PPJB) dibawah tangan</li>
+            </ol>
+        </td>
+        <td width="50%">
+            <span>Harga belum termasuk biaya&minus;biaya:</span>
+            <ol type="a">
+                <li>Akta Jual Beli (AJB) di hadapan notaris/PPAT</li>
+                <li>Biaya Balik Nama SHM-SRS ke atas nama pemesan</li>
+                <li>Biaya Perolehan Hak atas tanah dan bangunan (BPHTB)</li>
+                <li>Biaya Pengurusan KPA</li>
+                <li>Biaya aktifasi telepon</li>
+                <li>Iuran Pengelolaan (Service Charge dan Sinking Fund)</li>
+                <li>Biaya yang timbul berdasarkan keputusan/peraturan dari pemerintah termasuk PPNBM (Jika ada)</li>
+            </ol>
+        </td>
+    </tr>
+</table>
+<br />
+
+<table>
+    <tr>
+        <td width="40%">Pemesan</td>
+        <td width="35%">Marketing</td>
+        <td width="30%">Sales Manager</td>
+    </tr>
+
+    <tr>
+        <td width="40%"><br /></td>
+        <td width="35%"><br /></td>
+        <td width="30%"><br /></td>
+    </tr>
+    <tr>
+        <td width="40%"><br /></td>
+        <td width="35%"><br /></td>
+        <td width="30%"><br /></td>
+    </tr>
+    <tr>
+        <td width="40%"><br /></td>
+        <td width="35%"><br /></td>
+        <td width="30%"><br /></td>
+    </tr>
+    <tr>
+        <td width="40%"><br /></td>
+        <td width="35%"><br /></td>
+        <td width="30%"><br /></td>
+    </tr>
+    <tr>
+        <td>&minus;&minus;&minus;&minus;&minus;&minus;&minus;&minus;</td>
+        <td>&minus;&minus;&minus;&minus;&minus;&minus;&minus;&minus;</td>
+        <td>&minus;&minus;&minus;&minus;&minus;&minus;&minus;&minus;</td>
+    </tr>
+</table>
+
+<div>
+    <span>Catatan:</span>
+    <ol>
+        <li>
+            Pemesan wajb menandatangani Surat Konfirmasi Unit Pesanan (SKUP) ini dalam kurun waktu 7 (tujuh) hari kalender, dan apabila
+            dalam kurun waktu tersebut pemesan tidak menandatangani SKUP dengan demikian pemesanan dianggap batal tanpa diperlukan
+            pemberitahuan terlebih dahulu dan seluruh pembayaran yang telah diterima oleh Penerima Pesanan tidak dapat dikembalikan
+            karena sebab atau alasan apapun dan menjadi hak sepenuhnya Penerima Pesanan
+        </li>
+        <li>
+            Dengan menandatangani SKUP ini, Pemesan telah menyetujui semua syarat-syarat dan ketentuan Surat Pesanan yang ada
+            dibalik halaman ini
+        </li>
+    </ol>
+</div>

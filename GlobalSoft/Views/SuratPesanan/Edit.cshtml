@@ -1,0 +1,301 @@
+﻿@model GlobalSoft.Models.AptTrans
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Surat Pesanan</h4>
+
+        <hr />
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.NoRef, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.NoRef, new { htmlAttributes = new { @class = "form-control", @disabled = true } })
+                            @Html.ValidationMessageFor(model => model.NoRef, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Tanggal, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @* Date: <input type="text" id="datepicker">*@
+                            @*Html.EditorFor(model => model.Tanggal, new { htmlAttributes = new { @class = "form-control", type = "date-local", placeholder = "Tanggal Transaksi", @Value = DateTime.Now } })*@
+                            @Html.TextBoxFor(model => model.Tanggal, new { @class = "form-control", type = "date", placeholder = "Tanggal Transaksi", @Value = DateTime.Today.ToString("yyyy-MM-dd") })
+                            @Html.ValidationMessageFor(model => model.Tanggal, "", new { @class = "text-danger" })
+                        </div>
+                        @*Html.TextBoxFor(model => model.Tanggal, "{0:yyyy-MM-ddThh:mm:ss}", new { @class = "form-control", type = "datetime-local" })*@
+
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.UnitID, "Unit No", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("UnitID", null, "--UNIT--", htmlAttributes: new { @class = "form-control", @disabled = true })
+                            @Html.ValidationMessageFor(model => model.UnitID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CustomerID, "Customer", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("CustomerID", null, "-- CUSTOMER--", htmlAttributes: new { @class = "form-control", @disabled = true })
+                            @Html.ValidationMessageFor(model => model.CustomerID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.MarketingID, "Marketing", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("MarketingID", null, "--MARKETING--", htmlAttributes: new { @class = "form-control", @disabled = true })
+                            @Html.ValidationMessageFor(model => model.MarketingID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Keterangan, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Keterangan, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Keterangan, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.BayarID, "Cara Bayar", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+
+                            @Html.DropDownList("BayarID", null, "--Cara Bayar--", htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.BayarID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Harga, "Harga Jual", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Harga, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Harga, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+                        @Html.Label("Tanggal SP", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.Editor("TglSP", new { htmlAttributes = new { @class = "form-control", @Type = "date", @id = "TglSP", @Value = DateTime.Today.ToString("yyyy-MM-dd"), @disabled = true } })
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="container">
+                        <div id="list_container">
+                        </div>
+                        <br>
+                        <div id="list_container2">
+
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+    @Html.Hidden("RedirectTo", Url.Action("Index", "SuratPesanan"))
+</div>
+<br />
+<hr />
+
+<div class="form-group">
+    <div class="col-md-offset-6 col-md-10">
+
+        <button class="btn btn-danger pull-left" id="saveOrder">SIMPAN</button>
+
+
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/cssjqryUi")
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+
+    <script>
+        $(document).ready(function () {
+            //  e.preventDefault();
+
+            var noref = $("#NoRef").val();
+
+
+            var data2 = {
+                noref: noref
+
+            };
+            //     var ref_this = $('.nav-tabs .active').text();
+            //     var refa = $('.nav-tabs .active > a').attr('href');
+            //    alert(ref_this + refa);
+            //    alert(tanggal + ' ' + cicilan);
+
+            //     alert(JSON.stringify(data2));
+
+            $.ajax({
+                type: "GET",
+                url: "/SuratPesanan/EditPesanan",
+                data: data2,
+                success: function (result) {
+                    var test = JSON.stringify(result);
+
+                    //      alert(test);
+                    $("#list_container2").html(result);
+
+                },
+                error: function (result) {
+                    alert("Something went wrong in controller");
+                }
+            });
+        });
+
+        function getDateIfDate(d) {
+            var m = d.match(/\/Date\((\d+)\)\//);
+            return m ? (new Date(+m[1])).toLocaleDateString('en-GB', { month: '2-digit', day: '2-digit', year: 'numeric' }) : d;
+        }
+
+
+    </script>
+
+
+    <script>
+        var url = $('#RedirectTo').val();
+
+        function saveOrder(data) {
+
+            return $.ajax({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                type: 'POST',
+                url: "/SuratPesanan/SimpanEdit",
+                data: data,
+                success: function (result) {
+                    alert(result);
+
+                    // location.href = url;
+                    //location.reload(true);
+                },
+                error: function () {
+                    alert("Error!");
+                }
+            });
+        }
+        //Collect Multiple Order List For Pass To Controller
+        $("#saveOrder").click(function (e) {
+            e.preventDefault();
+
+            var orderArr = [];
+            orderArr.length = 0;
+
+            $.each($("#assets-data-table tbody tr"), function () {
+                orderArr.push({
+                    duedate: $(this).find(".duedate input").val(),
+                    keterangan: $(this).find(".keterangan input").val(),
+                    jumlah: $(this).find(".jumlah input").val(),
+                    spesananid: $(this).find('td:eq(3)').html()
+                });
+            });
+
+
+            var data = ({
+                bukti: $("#NoRef").val(),
+                keterangan: $("#Keterangan").val(),
+                tanggal: $("#Tanggal").val(),
+                row_num: $("#UnitID option:selected").val(),
+                row_cust: $("#CustomerID option:selected").val(),
+                marketing: $("#MarketingID option:selected").val(),
+                carabayar: $("#BayarID option:selected").val(),
+                harga: $("#Harga").val(),
+                order: orderArr
+            });
+            var test = JSON.stringify(data);
+            // alert(test);
+
+            $.when(saveOrder(test)).then(function (response) {
+                cetak();
+                console.log(response);
+                location.href = url;
+            }).fail(function (err) {
+                console.log(err);
+            });
+        });
+
+
+        function cetak() {
+            var noref = $("#NoRef").val();
+            var cetak = 2;
+            var url = "/SuratPesanan/Spesanan?noref=" + noref + "&cetak=2";
+            window.open(url);
+
+        }
+
+        $(document).on('click', 'a.deleteItem', function (e) {
+            e.preventDefault();
+            var $self = $(this);
+            if ($(this).attr('data-itemId') === "0") {
+                $(this).parents('tr').css("background-color", "#ff6347").fadeOut(800, function () {
+                    $(this).remove();
+                });
+            }
+        });
+
+
+
+    </script>
+
+    <script>
+        function addList() {
+                var td2 = '<td class="duedate">  @Html.Raw(Ajax.JavaScriptStringEncode(Html.TextBox("Duedate", "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date"}).ToHtmlString()))</td>';
+                  var td3 = '<td class="keterangan"> @Html.Raw(Ajax.JavaScriptStringEncode(Html.Editor("Keterangan", new { htmlAttributes = new { @class = "form-control" } }).ToHtmlString()))</td>';
+                 var td4 = '<td class="jumlah"> @Html.Raw(Ajax.JavaScriptStringEncode(Html.Editor("Jumlah", new { htmlAttributes = new { @class = "form-control", @type = "number" } }).ToHtmlString()))</td>';
+                  var td5 = '<td hidden> </td>';
+                  var td6 = '<td> <a data-itemId="0" href="#" class="deleteItem">Remove</a></td>';
+                 $("tbody").append('<tr>' + td2 + td3 + td4 +td5 + td6+'</tr>');
+
+        }
+    </script>
+
+    <script>
+            //    $("#addToList").click(function (e) {
+            //        e.preventDefault();
+            //        alert("testing");
+                    //     var td2 = '<td class="duedate">  Html.Raw(Ajax.JavaScriptStringEncode(Html.TextBox("Duedate", "{0:yyyy-MM-dd}", new { class = "form-control", type = "date" }).ToHtmlString()))</td>';
+                    //      var td3 = '<td class="keterangan"> Html.Raw(Ajax.JavaScriptStringEncode(Html.Editor("Keterangan", new { htmlAttributes = new { class = "form-control" } }).ToHtmlString()))</td>';
+                    //      var td4 = '<td class="jumlah"> Html.Raw(Ajax.JavaScriptStringEncode(Html.Editor("Jumlah", new { htmlAttributes = new { class = "form-control", type = "number" } }).ToHtmlString()))</td>';
+                    //      var td5 = '<td hidden> </td>';
+                    //      var td6 = '<td> <a data-itemId="0" href="#" class="deleteItem">Remove</a></td>';
+                    //      $("tbody").append('<tr>' + td2 + td3 + td4 +td5 + td6+'</tr>');
+            //    });
+    </script>
+}
+

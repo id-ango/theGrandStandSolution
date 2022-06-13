@@ -1,0 +1,235 @@
+﻿@model GlobalSoft.Models.GlTransH
+
+@{
+    ViewBag.Title = "Create Transaksi";
+}
+
+<h2>Create Transaksi</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Journal Entry</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })       
+        <div class="col-md-6" style="display:inline-block">
+            <label class="control-label col-md-2">
+                Kode
+            </label>
+            <div class="col-md-2">
+                <input type="text" maxlength="3" size="3" id="kodeno" class="quantity form-control" onkeydown="uppercaseF(this)" />
+
+            </div>
+            <div class="col-md-3">
+                <a id="cekbukti" class="btn btn-default">Cek</a>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Docno, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Docno, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Docno, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+        </div>
+        
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Keterangan, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Keterangan, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Keterangan, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <!--     <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Save" class="btn btn-default" />
+                    </div>
+                </div>
+        -->
+
+        <div>
+            <table id="detailsTable" class="table">
+                <thead>
+                    <tr>
+                        <th style="width:30%">Transaksi</th>
+                        <th style="width:20%">Keterangan</th>
+                        <th style="width:15%">Terima</th>
+                        <th style="width:25%">Bayar</th>
+                        <th style="width:10%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                  
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>
+                            <!--      <input class="btnAdd btn btn-default" type="button" id="btnAdd1" value="Add" />
+                            -->
+                            <a id="addToList" class="btn btn-primary">Add To List</a>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <input id="btnSubmit" type="button" value="Simpan" class="btn btn-danger" />
+                        </td>
+
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+   
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+ 
+</div>
+
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/cssjqryUi")
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <script>
+
+   
+    $(document).on('click', 'a.deleteItem', function (e) {
+        e.preventDefault();
+        var $self = $(this);
+        if ($(this).attr('data-itemId') === "0") {
+            $(this).parents('tr').css("background-color", "#ff6347").fadeOut(800, function () {
+                $(this).remove();
+            });
+        }
+    });
+
+    function getAllData() {
+        var orderArr = [];
+        $('tbody tr').each(function () {
+            var transid = $(this).find('#Transid').val();
+            var ket = $(this).find('#Ket').val();
+            var terima = $(this).find('#Terima').val();
+            var bayar = $(this).find('#Bayar').val();
+            var alldata = {
+                'TransNoID': transid,
+                'Keterangan': ket,
+                'Terima': terima,
+                'Bayar': bayar
+            }
+            orderArr.push(alldata);
+
+        });
+    //
+        var data = {
+            transhid: $('#TranshID').val(),
+            docno: $("#Docno").val(),
+            keterangan: $("#Keterangan").val(),
+            tanggal: $("#Tanggal").val(),
+            bank: $("#BankID").val(),
+             order: orderArr
+        }
+    //    console.log(data);
+   //     alert(data);
+        return data;
+    }
+
+    $('#btnSubmit').click(function () {
+        var data = JSON.stringify(getAllData());
+        var url = $('#RedirectTo').val();
+
+     //   alert(data);
+        $.ajax({
+            url: '/TransBank/EditData',
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: data,
+            success: function () {
+                alert("Data Added Successfully");
+                location.href = url;
+            },
+            error: function () {
+                alert("Error while inserting data");
+            }
+        });
+    });
+    </script>
+    <script>
+
+        $("#Terima").click(function () {
+
+            //  var b = $(this).parent('tr').find('#Bayar').html();
+            //   alert(b);
+        });
+
+
+
+
+    </script>
+
+    <script>
+        /*            document.getElementById("Docno").focus = function () { myFunction() };
+
+                    function myFunction() {
+                        var x = document.getElementById("Docno");
+                        x.value = x.value.toUpperCase();
+                    }
+        */
+        addEvent(document.getElementById('Bayar'), 'keyup', function () {
+            document.getElementById('Terima').value = 0;
+        });
+
+
+        function addEvent(ele, evnt, funct) {
+            if (ele.addEventListener) // W3C
+                return ele.addEventListener(evnt, funct, false);
+            else if (ele.attachEvent)  // IE
+                return ele.attachEvent("on" + evnt, funct);
+        }
+    </script>
+
+    <script>
+        $("#cekbukti").click(function (e) {
+            e.preventDefault();
+            var data = JSON.stringify({
+                kodeno: $("#kodeno").val()
+            });
+
+            getkode(data);
+
+            function getkode(data) {
+                return $.ajax({
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    type: 'POST',
+                    url: "/TransLedger/GetKode",
+                    data: data,
+                    success: function (result) {
+
+                        $("#docno").val(result);
+
+                    },
+                    error: function () {
+                        alert("Error!");
+                    }
+                });
+            }
+
+        });
+
+
+
+    </script>
+
+}

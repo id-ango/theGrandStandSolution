@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - GlobalSoft Application</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/datatables")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("The GrandStand App", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="margin-right: 5px;">Dashboard<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Unit", "DsbUnit", "Dashboard")</li>
+                            <li>@Html.ActionLink("List Unit", "List3Unit", "Dashboard")</li>
+                            <li>@Html.ActionLink("Tabular Unit", "List2Unit", "Dashboard")</li>
+                            <li>@Html.ActionLink("Master Stock", "DaftarUnit", "Dashboard")</li>
+
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="margin-right: 5px;">Administrasi<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Booking Fee", "index", "BookingFee")</li>
+                            <li>@Html.ActionLink("Bonus", "index", "Bonus")</li>
+                            <li>@Html.ActionLink("Surat Pesanan", "index", "SuratPesanan")</li>
+                            <li class="divider"></li>
+                            <li>@Html.ActionLink("Setup Jenis Penjualan", "index", "SetupBayar")</li>
+                            <li>@Html.ActionLink("Setup Cara Bayar", "index", "SetupPayment")</li>
+
+                            @* <li>@Html.ActionLink("Syarat SKUP", "SKUP", "~/home", new { target = "_blank" })</li>
+                            *@
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="margin-right: 5px;">Piutang<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Bayar Angsuran", "index", "TransAngsuran")</li>
+                            <li>@Html.ActionLink("Display Manager", "displaymanager", "TransAngsuran")</li>
+                            <li>@Html.ActionLink("Display Piutang", "Index", "LaporanPiutang")</li>
+
+                            <li class="divider"></li>
+                            <li>@Html.ActionLink("Setup Customer", "index", "SetupCustomer")</li>
+                            <li>@Html.ActionLink("Setup AccountSet (AR)", "index", "ArAkunSets")</li>
+
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="margin-right: 5px;">Hutang<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Invoice", "index", "ApHutangHs")</li>
+                            <li class="divider"></li>
+                            <li>@Html.ActionLink("Setup Supplier", "index", "SetupSupplier")</li>
+                            <li>@Html.ActionLink("Setup AccountSet (AP)", "index", "ApAkunSets")</li>
+                            <li>@Html.ActionLink("Setup DistributionSet (AP)", "index", "ApDistribSets")</li>
+
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="margin-right: 5px;">KasBank<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Transaksi", "index", "TransBank")</li>
+                            <li class="divider"></li>
+                            <li>@Html.ActionLink("Rek. Koran", "rekkoran", "Laporan")</li>
+                            <li>@Html.ActionLink("Per-Transaksi", "LapCBTransaksi", "Laporan")</li>
+                            <li class="divider"></li>
+                            <li>@Html.ActionLink("Setup Bank", "index", "SetupBank")</li>
+                            <li>@Html.ActionLink("Setup SourceCode", "index", "SetupTrsNo")</li>
+                            <li>@Html.ActionLink("Laporan Source Code", "LapSourceCode", "Laporan")</li>
+
+
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="margin-right: 5px;">Ledger<b class="caret"></b></a>
+                        <ul class="dropdown-menu">                           
+                            <li>@Html.ActionLink("Journal", "index", "TransLedger")</li>
+                            <li class="divider"></li>
+                            <li>@Html.ActionLink("Laporan Keuangan", "index", "ReportFinance")</li>
+                            <li>@Html.ActionLink("Laporan Buku Besar", "LapBukuBesar", "Laporan")</li>
+                            <li class="divider"></li>
+                            <li>@Html.ActionLink("Setup Akun", "index", "SetupGlAccounts")</li>
+                            <li>@Html.ActionLink("Setup Kode GL", "index", "SetupKodeGL")</li>
+                            <li>@Html.ActionLink("Setup Tipe Akun", "index", "SetupGlTipes")</li>
+
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="margin-right: 5px;">Setup<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Tipe Ruangan", "Index", "SetupType")</li>
+                            <li>@Html.ActionLink("Kategori Unit", "index", "SetupCategorie")</li>
+                            <li>@Html.ActionLink("Status Unit", "index", "SetupStatus")</li>
+                            <li>@Html.ActionLink("Unit", "Index", "SetupUnit")</li>
+                            <li>@Html.ActionLink("Agen", "index", "SetupAgen")</li>
+                            <li>@Html.ActionLink("Marketing", "index", "SetupMarketing")</li>
+                            <li>@Html.ActionLink("Level Gedung", "index", "AptGedungs")</li>
+                            <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+                            @*    <li><a href="#">Reservasi</a></li> *@
+                        </ul>
+                    </li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - GrandStand Application</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/datatables")
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

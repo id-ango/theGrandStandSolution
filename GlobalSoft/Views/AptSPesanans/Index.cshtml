@@ -1,0 +1,44 @@
+﻿@model IEnumerable<GlobalSoft.Models.AptSPesanan>
+@Styles.Render("~/w2ui/css")
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<div id="indexGrid" style="width: 100%; height: 400px; overflow: hidden;"></div>
+
+
+@section Scripts {
+    @Scripts.Render("~/w2ui/js")   // this is required
+    <script>
+      $(document).ready(function () {
+         $('#indexGrid').w2grid({
+             name: 'indexGrid',
+             header: "List Name",
+            url: {
+               get: '@Url.Action("LoadRecords")',
+             },
+             show: {
+                 header: true,
+                 toolbar: true,
+                 footer: true,
+                 lineNumbers: true,
+                 selectColumn: false,
+                 expandColumn: false
+             },        
+            columns: [
+               { field: 'SPesananID', caption: 'Last Name', size: '30%', sortable: true },
+               { field: 'Tanggal', caption: 'First Name', size: '30%', sortable: true },
+               { field: 'LPB', caption: 'Email', size: '40%', sortable: true },
+               { field: 'Keterangan', caption: 'Start Date', size: '120px', sortable: true }
+            ],
+           
+          });
+       });
+    </script>
+}

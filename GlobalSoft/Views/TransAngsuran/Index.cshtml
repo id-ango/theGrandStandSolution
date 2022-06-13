@@ -1,0 +1,74 @@
+﻿@model IEnumerable<GlobalSoft.Models.ArHView>
+
+
+@{
+    ViewBag.Title = "Angsuran";
+}
+
+<h2></h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", new { @style = "background:url('/Images/Menu/edit.png') no-repeat center right; display:block; height: 30px; width: 50px" })
+   @* Html.ActionLink(" ", "Edit", new {id = c.ID}, new { @style = "background:url('../../Images/Menu/edit.png') no-repeat center right; display:block; height: 30px; width: 50px" }*@
+</p>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-primary list-panel" id="list-panel">
+            <div class="panel-heading list-panel-heading">
+                <h1 class="panel-title list-panel-title">Pembayaran Angsuran</h1>
+            </div>
+            <div class="panel-body">
+                <table id="assets-data-table" class="table table-striped table-bordered" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>No. Bukti</th>
+                            <th>Tanggal</th>
+                            <th>Bank</th>
+                            <th>Customer</th>
+                            <th>Keterangan</th>
+                            <th>Jumlah</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var asset in Model)
+                        {
+                            <tr>
+                                <td>@asset.Bukti</td>
+                                <td>@asset.Tanggal</td>
+                                <td>@asset.BankName</td>
+                                <td>@asset.CustomerName</td>
+                                <td>@asset.Keterangan</td>
+                                <td>@string.Format("{0:#,#.00}", asset.Jumlah)</td>
+
+                                <td>
+
+                                    @Html.ActionLink("Details", "Details", new { id = asset.ArHID }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = asset.ArHID }) |
+                                    @Html.ActionLink("Tanda Terima", "BuktiTerima", new { noref = @asset.Bukti, cetak = 2 }, new { target = "_blank" })
+                            
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('#assets-data-table').DataTable();
+        });
+
+    </script>
+}
+
+
+

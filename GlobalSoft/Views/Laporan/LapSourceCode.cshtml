@@ -1,0 +1,71 @@
+﻿@model IEnumerable<GlobalSoft.Models.GlAccount>
+
+@{
+    ViewBag.Title = "Source Code";
+}
+
+<h2>Source Code</h2>
+
+<br />
+<br />
+
+@Html.AntiForgeryToken()
+
+
+
+<table class="table">
+    <tr>
+        <th>
+           Source Code
+        </th>
+        <th>
+            Kode GL
+        </th>
+        <th>
+            Nama GL
+        </th>
+        
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.GlAkun2
+            </td>
+            <td>
+                @item.GlAkun
+            </td>
+            <td>
+                @item.GlAkunName
+              
+            </td>
+           
+        </tr>
+    }
+
+</table>
+
+
+@section scripts{
+    @*Scripts.Render("~/bundles/jqueryui")*@
+    @*Styles.Render("~/Content/cssjqryUi")*@
+
+    <!--   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+         <script>
+              $(function () {
+                  $.each(".tanggal").datepicker({
+                      dateFormat: 'mm-dd-yy',
+                      changeMonth: true,
+                      changeYear: true,
+                      yearRange: '1900:' + (new Date().getFullYear() + 60)
+                  });
+              });
+          </script>   -->
+
+
+
+
+}

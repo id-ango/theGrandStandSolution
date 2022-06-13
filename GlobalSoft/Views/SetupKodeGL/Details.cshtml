@@ -1,0 +1,32 @@
+﻿@model GlobalSoft.Models.GlCode
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Kode GL</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.KodeGL)
+        </dt>
+        <dt>
+            @Html.DisplayNameFor(model => model.NamaGL)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KodeGL)
+        </dd>
+        <dd>
+            @Html.DisplayFor(model => model.NamaGL)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.GlCodeID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
